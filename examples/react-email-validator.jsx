@@ -15,22 +15,19 @@
  * No API keys required. No network requests. Everything runs client-side.
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useId } from "react";
 import MailChecker from "mailchecker";
 
 /**
  * Validate an email and return an error message (or empty string if valid).
+ * MailChecker.isValid() checks both format and disposable domains in one call.
  * @param {string} email
  * @returns {string} Error message, or "" if valid.
  */
 export function validateEmail(email) {
   if (!email) return "";
   if (!MailChecker.isValid(email)) {
-    // MailChecker returns false for both bad format and disposable domains
-    if (!email.includes("@") || email.indexOf("@") === email.length - 1) {
-      return "Please enter a valid email address.";
-    }
-    return "Disposable or temporary emails are not allowed. Please use a permanent email address.";
+    return "Please enter a valid, permanent email address. Disposable or temporary emails are not accepted.";
   }
   return "";
 }
@@ -44,6 +41,7 @@ export function validateEmail(email) {
  *   - className: optional CSS class name for the wrapper div
  *   - inputClassName: optional CSS class name for the input element
  *   - label: optional label text (default: "Email")
+ *   - id: optional HTML id for the input element (auto-generated if omitted)
  */
 export default function EmailValidator({
   onValidEmail,
@@ -51,7 +49,11 @@ export default function EmailValidator({
   className = "",
   inputClassName = "",
   label = "Email",
+  id,
 }) {
+  const generatedId = useId();
+  const inputId = id || `${generatedId}-email`;
+  const errorId = `${inputId}-error`;
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [touched, setTouched] = useState(false);
@@ -85,14 +87,14 @@ export default function EmailValidator({
     <div className={className}>
       {label && (
         <label
-          htmlFor="mailchecker-email"
+          htmlFor={inputId}
           style={{ display: "block", marginBottom: "0.25rem", fontWeight: 500 }}
         >
           {label}
         </label>
       )}
       <input
-        id="mailchecker-email"
+        id={inputId}
         type="email"
         value={email}
         onChange={handleChange}
@@ -100,7 +102,7 @@ export default function EmailValidator({
         placeholder={placeholder}
         className={inputClassName}
         aria-invalid={!!error}
-        aria-describedby={error ? "mailchecker-error" : undefined}
+        aria-describedby={error ? errorId : undefined}
         style={{
           width: "100%",
           padding: "0.5rem",
@@ -111,7 +113,7 @@ export default function EmailValidator({
       />
       {error && (
         <p
-          id="mailchecker-error"
+          id={errorId}
           role="alert"
           style={{
             color: "#ef4444",

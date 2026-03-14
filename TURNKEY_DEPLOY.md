@@ -270,7 +270,7 @@ A: Yes. The full blocklist is included in the package.
 A: Yes. It works with any JavaScript framework. Bolt and Lovable both use React/Vite under the hood.
 
 **Q: How do I keep the blocklist up to date?**
-A: Run `npm update mailchecker` periodically, or set the version to `latest` in your `package.json`.
+A: Run `npm update mailchecker` periodically to pull in the latest version with updated domains.
 
 **Q: Can I add my own blocked domains?**
 A: Yes. Use `MailChecker.addCustomDomains(["domain1.com", "domain2.com"])`.
