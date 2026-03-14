@@ -25,6 +25,9 @@ Cross-language email validation. Backed by a [database](./list.txt) of **over 55
 
 This will be very helpful when you have to contact your users and you want to avoid errors causing lack of communication or want to block "spamboxes".
 
+> ### 🚀 Using Bolt.new or Lovable.dev?
+> Check out the **[Turnkey Deployment Guide](./TURNKEY_DEPLOY.md)** — copy-paste prompts and examples to add email validation to your project in seconds. No coding required.
+
 -------------------------
 
 > Need to provide Webhooks inside your SaaS?
